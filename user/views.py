@@ -1,4 +1,4 @@
-from django.shortcuts import render ,redirect
+from django.shortcuts import get_object_or_404, render ,redirect
 from django.http import HttpResponse
 from .forms import UserForm
 from django.contrib.auth import login, logout, authenticate, get_user_model
@@ -88,12 +88,16 @@ def login(request):
 
 @login_required
 def update(request):
-    pass
-#    user  = User.objects.filter(username=request.user.username)
-#    print( user)
-#    if user :
-#     form =UserForm(instance=user)
-    
+    user = get_object_or_404(User,username=request.user.username,email=request.user.email)
+    if request.method == 'GET':
+        form = UserForm(instance=user)
+        return render(request, 'user/updateuser.html', context={'form': form})
+    if request.method == 'POST':
+        form = UserForm(
+            request.POST, request.FILES ,instance=user)
+        if form.is_valid():
+            form.save()
+        return redirect('/user/login/')
 
        
 
