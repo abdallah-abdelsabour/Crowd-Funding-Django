@@ -1,0 +1,40 @@
+{% extends 'Users/base2.html' %} {% load crispy_forms_tags %} {% block content%}
+
+<form action="" method="post" enctype="multipart/form-data">
+  
+<h3 style="margin-top: 53px;
+text-align: center;
+color: cornflowerblue;">CREATE NEW ACCOUNT </h3>
+{% if registered %}
+<h1>Please Visit Your E-mail To Activate Your Account!</h1>
+<hr>
+{% else %}
+<div class="form-content container">
+    <form enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="offset-1 col-md-10">
+                {{ user_form|crispy }}
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="offset-1 col-md-10">
+                {{ profile_form|crispy }}
+            </div>
+        </div>
+        <div class="row">
+           <input type="submit" class=" offset-1 col-md-10 btnSubmit" value="Sign Up">
+        </div>
+        <div class="row">
+            <a href="/user/login" class="btn btn-link offset-4 col-md-4">
+                            Already a member ? Login in
+            </a>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+</div>
+</form>
+{% endblock content%}
