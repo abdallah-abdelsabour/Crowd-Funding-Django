@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class=" m-3">
+    <h1 class="text-center">All Projects</h1>
+    <a href="{% url 'createproject' %}" class="btn btn-outline-dark w-25 m-auto">Create New Project</a>
+    <div class="row d-flex justify-content-evenly">
+        {% for project in object_list %}
+        <div class="card mb-3 col-lg-5 col-sm-12 p-2">
+            <div class="card-body"> 
+                <h5 class="card-title">{{project.title}}</h5>
+             {{ project.Picture.0}}
+            </div>
+            <a href="{% url 'detail' project.id %}" class="btn btn-outline-dark w-100 text-center">Show</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
