@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="text-dark m-3">
+    <div class="card p-3 w-50 bg-light-subtle m-auto">
+        <h1 class="card-body text-center"> Add Comment</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form}}
+            <button type="submit" class="btn btn-outline-dark mt-2 w-100">Add</button>
+        </form>
+        <script src="{% static './js/script.js' %}"> </script>
+
+    </div>
+</div>
+
+{% endblock %} 

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} Rate {% endblock %}
+{% load static %}
+{% block content %}
+<div>
+<h1> Rate</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit" class="btn btn-outline-primary mt-2 w-100">Submit</button>
+</form>
+<script src="{% static 'productapp/js/script.js' %}"> </script>
+</div>
+{% endblock %}

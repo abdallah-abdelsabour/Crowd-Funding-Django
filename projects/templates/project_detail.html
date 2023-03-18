@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="mt-3">
+    <div class="p-1 m-0 ">
+        <div class=" row d-flex  justify-content-between">
+            <div class="col-6">
+                <div class="">
+            <div id="carouselExample" class="carousel slide ">
+                <div class="carousel-inner">
+                {% for picture in pictures %}
+                <div class="carousel-item active w-100">
+                        <img style="height: 420px " class="d-block w-100" src="{{ picture.pic_path.url }}" >
+                </div>
+                {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="">Next</span>
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+            </div>
+            </div>
+            <div class="col-5">
+                <h5 class="card-title rounded-3 mb-3 fs-2">{{project.title}}</h5>
+                <p>The average rating is {{ avg_rate }}</p>
+
+                <p class="card-text fs-6"> {{project.details}} </p>
+                <p>Category: {{ project.category }}</p>
+                <p>Total target: {{ project.total_target }}</p>
+                <p>Start time: {{ project.start_time }}</p>
+                <p>End time: {{ project.end_time }}</p>
+                <p>Total Donation: {{total_donation}}</p>
+                <div class="row">
+                  <div class="row col-12 justify-content-evenly">
+                    <button type="button" class="btn btn-outline-success col-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      Donate
+                    </button>
+                    <button type="button" class="btn btn-outline-warning col-3" data-bs-toggle="modal" data-bs-target="#ratemodal">
+                      Rate
+                    </button>
+                    <button type="button" class="btn btn-outline-danger col-3" data-bs-toggle="modal" data-bs-target="#reportproject">
+                      Report
+                    </button>
+                  </div>
+                  <div class="row col-12 justify-content-evenly mt-2">
+                    {% if request.user == project.user_id %}
+                    <a href="{% url 'deleteproject' project.id %}" class="btn btn-outline-danger col-3"> Delete </a>
+                    <a href="{% url 'updateproject' project.id %}" class="btn btn-outline-dark col-3"> Update </a>
+                    {% endif %}
+                  </div>
+                  <div class="row col-12 justify-content-evenly mt-2">
+                    <a href="{% url 'allprojects' %}" class="btn btn-outline-dark col-3">back</a>
+                  </div>
+                </div>
+            </div>
+            </div>
+            <!-- comment session -->
+<section style="background-color: #eee; border-radius: 25px;">
+    <div class="container my-5 p-3">
+      <div class="text-center mb-3 display-6">{ Comments }</div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12 col-lg-10 col-xl-8">
+                <div class="card ">
+                    <div class="card-body">
+                        <div class="p-1 ">
+                            {% for comment in project.comments.all%}
+                            <div class="mt-3 mb-4 card shadow">
+                                <div class="d-flex card-header">
+                                    <img class="rounded-circle shadow-1-strong me-3"
+                                        src="{{comment.user.profile.profile_pic.url}}" alt="avatar"
+                                        width="60" height="60" />
+                                    <h6 class="fw-bold fs-5 mt-3">{{comment.user}}</h6> 
+                                </div>
+                                <div class='p-4 fs-4'>
+                                  {{comment.comment_body}}
+                                </div>
+
+                                  <div class='d-flex card-footer'>
+                                    {% if request.user == comment.user %}
+                                      <a href="{% url 'delete_comment' project.id %}" class="btn btn-danger w-25">
+                                        Delete
+                                      </a>   
+                                    {% else %}
+                                      <a type="button" class="btn btn-danger w-25 ms-2" data-bs-toggle="modal" data-bs-target="#reportcomment">
+                                        Report 
+                                      </a>
+                                    {% endif %} 
+                                  </div>
+                                  </div>
+                            {% endfor %}
+                        </div>
+                        <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+                            <div class="d-flex flex-start w-100">
+                                <img class="rounded-circle shadow-1-strong me-3"
+                                    src="{{ user.profile.profile_pic.url }}" alt="avatar"
+                                    width="40" height="40" />
+                                <div class="form-outline w-100">
+                                    <form method="post" action="{% url 'add_comment' project.id %}">
+                                        {% csrf_token %}
+                                        <div class=''>
+                                          {{form.comment_body}}
+                                         
+                                        </div>
+                                        <button type="submit" class="btn btn-outline-dark mt-2 ">Add Comment</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="float-end mt-2 pt-1">
+                                {% comment %} <button type="button" class="btn btn-primary btn-sm"> comment</button> {% endcomment %}
+                                {% comment %} <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button> {% endcomment %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+        <script src="{% static './js/script.js' %}"> </script>
+
+
+  
+
+{% comment %} modal {% endcomment %}
+<!-- donate Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">DONATE </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+                    <form method="POST" action="{% url 'donate' project.id %}">
+                        {% csrf_token %}
+                        {{donate}}
+                        <button type="submit" class="btn btn-primary">Donate</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %} rate modal {% endcomment %}
+
+<div class="modal fade" id="ratemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ratemodal">RATE </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+                    <form method="POST" action="{% url 'rateproject' project.id %}">
+                        {% csrf_token %}
+                        {{rate}}
+                        <button type="submit" class="btn btn-primary">RATE</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% comment %} report comment modal on {% endcomment %}
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="reportcomment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Report Comment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      <form method="post" enctype="multipart/form-data" action="{% url 'report_comment' project.id %}">
+            {% csrf_token %}
+            {% comment %} <div style="display: none;"> {% endcomment %}
+               <div style="display: none;">
+                {{reportcomment}}
+            </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-danger">Report Comment</button>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %} projwect report  {% endcomment %}
+<!-- Button trigger modal -->
+{% comment %} <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportproject">
+  Report
+</button> {% endcomment %}
+
+<!-- Modal -->
+<div class="modal fade" id="reportproject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-body">
+        <form method="post" enctype="multipart/form-data" class="text-center" action="{% url 'reportproject' project.id %}">
+            {% csrf_token %}
+            <div style="display: none;">{{reportproject}}</div>
+            <p class=" col-12 mb-5 mt-5">Do you want to Report {{project}} ?</p>
+            <button type="submit" class="btn btn-danger col-5">Report</button>
+                    <button type="button" class="btn btn-success col-5" data-bs-dismiss="modal">Close</button>
+ 
+        </form>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+{% comment %} prjects detrails {% endcomment %}
+<div class="display-6 text-center">
+  { Similar Projects }
+</div>
+<div class="row d-flex justify-content-evenly">
+  {% for project in projects %}
+    <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
+  
+<div class="position-relative">
+      <img src="{{ project.picture_set.first.pic_path.url }}" class="card-img-top" alt="...">
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+  {% if project.avg_rate == None %}
+  0
+  {% else %}
+      {{project.avg_rate}}
+
+  {% endif %}
+    </span>
+</div>
+
+    <div class="card-body text-center ">
+      
+      <h5 class="card-title ">{{project.title}}</h5>
+
+      <p class="card-text fs-5"><small class="">{{project.tag}}</small></p>
+    </div>
+    <div class="d-flex justify-content-evenly">
+      <a href="{% url 'detail' project.id %}" class="btn btn-success  text-center">Detail</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
