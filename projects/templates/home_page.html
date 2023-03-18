@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form action="/projects/search/" method="GET" >
+    <div class="row my-md-4">
+    <div class="col-md-4 offset-md-3">
+    <input class="form-control" type="text" name="q" value="{{request.GET.q}}" placeholder="Search"/>
+        </div>
+    <div class="col-md-3">
+    <input type="submit" class="btn btn-info" name="submit" />
+        </div>
+        </div>
+</form>
+<div class="container m-auto mt-5 row justify-content-evenly">
+        <h1 class="text-center display-3 mb-3">Top Rated Projects</h1>
+        {% for project in projects %}
+         <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
+  
+<div class="position-relative">
+      <img src="{{ project.picture_set.first.pic_path.url }}" class="card-img-top" alt="...">
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+  {% if project.avg_rate == None %}
+  0
+  {% else %}
+      {{project.avg_rate}}
+
+  {% endif %}
+    </span>
+</div>
+
+    <div class="card-body text-center ">
+      
+      <h5 class="card-title ">{{project.title}}</h5>
+
+      <p class="card-text fs-5"><small class="">{{project.tag}}</small></p>
+    </div>
+    <div class="d-flex justify-content-evenly">
+      <a href="{% url 'detail' project.id %}" class="btn btn-success  text-center">Detail</a>
+    </div>
+  </div>
+        {% endfor %}
+</div>
+
+<h1 class="text-center">featured projects</h1>
+<div class=" m-3 row d-flex justify-content-evenly">
+{% for project in f_projects %}
+  <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
+  
+<div class="position-relative">
+      <img src="{{ project.picture_set.first.pic_path.url }}" class="card-img-top" alt="...">
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+  {% if project.avg_rate == None %}
+  0
+  {% else %}
+      {{project.avg_rate}}
+
+  {% endif %}
+    </span>
+</div>
+
+    <div class="card-body text-center ">
+      
+      <h5 class="card-title ">{{project.title}}</h5>
+
+      <p class="card-text fs-5"><small class="">{{project.tag}}</small></p>
+    </div>
+    <div class="d-flex justify-content-evenly">
+      <a href="{% url 'detail' project.id %}" class="btn btn-success  text-center">Detail</a>
+    </div>
+  </div>
+{% endfor %}
+</div>
+</div>
+ <div class="container-fluid bg-body-tertiary rounded">
+ <h3 class="text-center">{ latest projects }</h3>
+  <div class=" m-3 row d-flex justify-content-evenly">
+
+        {% for project in first %}
+  <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
+  
+<div class="position-relative">
+      <img src="{{ project.picture_set.first.pic_path.url }}" class="card-img-top" alt="...">
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+  {% if project.avg_rate == None %}
+  0
+  {% else %}
+      {{project.avg_rate}}
+
+  {% endif %}
+    </span>
+</div>
+    <div class="card-body text-center ">
+      <h5 class="card-title ">{{project.title}}</h5>
+      <p class="card-text fs-5"><small class="">{{project.tag}}</small></p>
+    </div>
+    <div class="d-flex justify-content-evenly">
+      <a href="{% url 'detail' project.id %}" class="btn btn-success  text-center">Detail</a>
+    </div>
+  </div>
+    {% endfor %}
+
+
+
+
+
+<h3 class="text-center bg-body-secondary p-3">All Categories</h3>
+<div class="text-center mb-5" >
+    <div class=" m-3 row d-flex justify-content-evenly">
+
+    {% for x in project %}
+     <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
+    <div class="card-body text-center ">
+      <h5 class="card-title ">{{x.cat_title}}</h5>
+    </div>
+    <div class="d-flex justify-content-evenly">
+      <a href="{% url 'category' x.id %}" class="btn btn-success  text-center">More..</a>
+    </div>
+    </div>
+    </div>
+    {% endfor %}
+{% endblock %}

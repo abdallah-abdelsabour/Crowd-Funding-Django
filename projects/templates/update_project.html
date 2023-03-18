@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="text-dark m-3">
+    <div class="card p-3 w-50 bg-light-subtle m-auto">
+        <h1 class="card-body text-center"> update  Product</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form}}
+            <table>
+            {{ edit_form.as_table }}
+            <tr>
+                <td>Tags</td>
+
+                <td><input type="text" name="tags" value="{{oldtags}}"/></td>
+
+            </tr>
+           <tr>
+                <td>&nbsp;</td>
+           </tr>
+       </table>
+            <button type="submit" class="btn btn-outline-dark mt-2 w-100">Update</button>
+        </form>
+        <script src="{% static './js/script.js' %}"> </script>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'projects.apps.ProjectsConfig',
 ]
 
 MIDDLEWARE = [
@@ -167,3 +168,7 @@ TINYMCE_DEFAULT_CONFIG = {
     "height": "600px",
     'image_caption': True,
 }
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')
