@@ -1,6 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
 from user.models import Profile
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, SetPasswordForm, PasswordResetForm
+from django.contrib.auth.forms import PasswordResetForm
+
+from django.contrib.auth import  get_user_model
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -53,7 +57,19 @@ class UpdateProfileForm(forms.ModelForm):
         fields = ('profile_pic','mobile_phone','birth_date','country','fb_profile')
 
 
-# class SetPasswordForm(SetPasswordForm):
-#     class Meta:
-#         model = get_user_model()
-#         fields = ['new_password1', 'new_password2']
+
+class SetPasswordForm(SetPasswordForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['new_password1', 'new_password2']
+
+class PasswordResetForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super(PasswordResetForm, self).__init__(*args, **kwargs)
+
+
+
+
+
+
+

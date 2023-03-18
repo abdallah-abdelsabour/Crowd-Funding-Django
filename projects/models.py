@@ -37,8 +37,7 @@ class Project(models.Model):
     featured=models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title  
-      
+        return self.title 
 # =======================(donation)==========================================
 
 class Donation(models.Model):
@@ -53,6 +52,7 @@ class Donation(models.Model):
          if t_donation == None :
               return 0 
          else :  
+             
              return t_donation
 
 

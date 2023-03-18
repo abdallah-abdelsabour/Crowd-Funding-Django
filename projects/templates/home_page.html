@@ -14,61 +14,108 @@
 <div class="container m-auto mt-5 row justify-content-evenly">
         <h1 class="text-center display-3 mb-3">Top Rated Projects</h1>
         {% for project in projects %}
-        <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
-            <!-- <div class=" d-flex justify-content-end">
-            <a href="{% url 'reportproject' project.id %}" class="btn btn-danger text-center">Report</a>
-            </div> -->
-            <div class="card-body text-center"> 
-                <h5 class="card-title ">{{project.title}}</h5>
-                <p class="card-text fs-5"><small class="">{{project.tag}}</small></p>
-            </div>
-            <div class="d-flex justify-content-evenly">
-                <a href="{% url 'detail' project.id %}" class="btn btn-primary  text-center">Show</a>
-            </div>
-        </div>
+         <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
+  
+<div class="position-relative">
+      <img src="{{ project.picture_set.first.pic_path.url }}" class="card-img-top" alt="...">
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+  {% if project.avg_rate == None %}
+  0
+  {% else %}
+      {{project.avg_rate}}
+
+  {% endif %}
+    </span>
+</div>
+
+    <div class="card-body text-center ">
+      
+      <h5 class="card-title ">{{project.title}}</h5>
+
+      <p class="card-text fs-5"><small class="">{{project.tag}}</small></p>
+    </div>
+    <div class="d-flex justify-content-evenly">
+      <a href="{% url 'detail' project.id %}" class="btn btn-success  text-center">Detail</a>
+    </div>
+  </div>
         {% endfor %}
 </div>
-<h1>featured projects</h1>
-{% for pro in f_projects %}
 
-    <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
-            <div class="card-body text-center"> 
-                <h5 class="card-title ">{{pro.title}}</h5>
-                <p class="card-text fs-5"><small class="">{{pro.tag}}</small></p>
-            </div>
-            <div class="d-flex justify-content-evenly">
-                <a href="{% url 'detail' pro.id %}" class="btn btn-primary  text-center">Show</a>
-            </div>
-        </div>
-
-{{pro}}
-
-{% endfor %}
-
-
-<div class=" m-3">
- home page
- <div class="container">
+<h1 class="text-center">featured projects</h1>
+<div class=" m-3 row d-flex justify-content-evenly">
+{% for project in f_projects %}
+  <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
   
-        {% for x in first %}
+<div class="position-relative">
+      <img src="{{ project.picture_set.first.pic_path.url }}" class="card-img-top" alt="...">
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+  {% if project.avg_rate == None %}
+  0
+  {% else %}
+      {{project.avg_rate}}
 
-    <div class="card mb-3 col-lg-5 col-sm-12 p-2">
-        <div class="card-body">
-          
-            <h5 class="card-title">{{x.title}}</h5>
-            <a href="{% url 'detail' x.id %}" class="btn btn-danger">show</a>
+  {% endif %}
+    </span>
+</div>
 
-        </div>
-    </div> {% endfor %}
-    <hr />
-   
-<div class="text-center mt-5">
-    {% for x in project %}
-    <a href="{% url 'category' x.id %}" class="btn btn-primary">{{x}}</a>
+    <div class="card-body text-center ">
+      
+      <h5 class="card-title ">{{project.title}}</h5>
+
+      <p class="card-text fs-5"><small class="">{{project.tag}}</small></p>
+    </div>
+    <div class="d-flex justify-content-evenly">
+      <a href="{% url 'detail' project.id %}" class="btn btn-success  text-center">Detail</a>
+    </div>
+  </div>
+{% endfor %}
+</div>
+</div>
+ <div class="container-fluid bg-body-tertiary rounded">
+ <h3 class="text-center">{ latest projects }</h3>
+  <div class=" m-3 row d-flex justify-content-evenly">
+
+        {% for project in first %}
+  <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
+  
+<div class="position-relative">
+      <img src="{{ project.picture_set.first.pic_path.url }}" class="card-img-top" alt="...">
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+  {% if project.avg_rate == None %}
+  0
+  {% else %}
+      {{project.avg_rate}}
+
+  {% endif %}
+    </span>
+</div>
+    <div class="card-body text-center ">
+      <h5 class="card-title ">{{project.title}}</h5>
+      <p class="card-text fs-5"><small class="">{{project.tag}}</small></p>
+    </div>
+    <div class="d-flex justify-content-evenly">
+      <a href="{% url 'detail' project.id %}" class="btn btn-success  text-center">Detail</a>
+    </div>
+  </div>
     {% endfor %}
-</div>
 
 
-   
-</div>
+
+
+
+<h3 class="text-center bg-body-secondary p-3">All Categories</h3>
+<div class="text-center mb-5" >
+    <div class=" m-3 row d-flex justify-content-evenly">
+
+    {% for x in project %}
+     <div class="m-3 card mb-3 shadow p-3 col-lg-3 col-sm-12">
+    <div class="card-body text-center ">
+      <h5 class="card-title ">{{x.cat_title}}</h5>
+    </div>
+    <div class="d-flex justify-content-evenly">
+      <a href="{% url 'category' x.id %}" class="btn btn-success  text-center">More..</a>
+    </div>
+    </div>
+    </div>
+    {% endfor %}
 {% endblock %}
