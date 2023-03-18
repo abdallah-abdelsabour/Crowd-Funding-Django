@@ -9,7 +9,7 @@ class ProjectModelForm(forms.Form):
     category = forms.ModelChoiceField(queryset=Category.objects.all())
     total_target = forms.IntegerField(min_value=0, label="Total Target")
     tags = forms.CharField(max_length=500, label='Project Tages', widget=forms.TextInput(attrs={'placeholder': 'type your tages seperated by blank space...'}))
-    end_time = forms.DateField(widget=forms.SelectDateWidget(years=range(2020, datetime.date.today().year + 20)),
+    end_time = forms.DateField(widget=forms.SelectDateWidget(years=range(2022, datetime.date.today().year + 20)),
                               label='End Time')
     Pictures = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
 # class ProjectModelForm(forms.ModelForm):
@@ -64,7 +64,7 @@ class AddProject(forms.Form):
     CurrentMoney = forms.IntegerField(min_value=0, label='Current money')
     TotalTarget = forms.IntegerField(min_value=0, label="Total Target")
     Tags = forms.CharField(max_length=500, label='Project Tages', widget=forms.TextInput(attrs={'placeholder': 'type your tages seperated by blank space...'}))
-    EndTime = forms.DateField(widget=forms.SelectDateWidget(years=range(2020, datetime.date.today().year + 20)),
+    EndTime = forms.DateField(widget=forms.SelectDateWidget(years=range(2022, datetime.date.today().year + 20)),
                               label='End Time')
     Pictures = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
@@ -87,7 +87,7 @@ class ReportProjectModelForm(forms.ModelForm):
 class EditProject(forms.ModelForm):
     class Meta:
         model = Project
-        exclude = ('start_time', 'user_id','tags','avg_rate',)
+        exclude = ('start_time', 'user_id','tags','avg_rate','featured' )
         widgets = {
-            'end_time': forms.SelectDateWidget(years=range(2020, datetime.date.today().year + 20)),
+            'end_time': forms.SelectDateWidget(years=range(2022, datetime.date.today().year + 20)),
         }

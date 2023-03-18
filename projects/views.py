@@ -84,7 +84,6 @@ def update_project(request, _id):
         oldtagsstr=' '.join([str(i) for i in oldtags])
         oldtags.delete()
         edit_form = EditProject(instance=project)
-
     return render(request, 'update_project.html', {'form': edit_form, 'oldtags':oldtagsstr, 'submitted': submitted})
 
 
