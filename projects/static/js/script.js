@@ -3,8 +3,9 @@ for (var i = 0; i < inputs.length; i++) {
     inputs[i].classList.add('form-control');
     
 }
+textarea = document.querySelectorAll('textarea');
+textarea.classList.add('form-control');
 select = document.querySelector('select')
-
 select.classList.add('form-control')
 
 divs = document.getElementsByClassName("form_element")
