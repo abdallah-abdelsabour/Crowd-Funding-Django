@@ -1,0 +1,53 @@
+{% extends 'Users/base2.html' %} {% load crispy_forms_tags %} {% load static %}
+{% load crispy_forms_tags %} {% block content %}
+
+<div class="container" style="display: flex; margin-top: 20px">
+  <div class="info" style="width: 50%">
+    <div class="card" style="width: 18rem">
+      <img
+        src="{{ user.profile.profile_pic.url }}"
+        class="card-img-top"
+        alt="..."
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{user.first_name}}</h5>
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </p>
+        <ul>
+          <li><li><a href="/user/profile/my_projects"><span class="fa fa-clipboard-list"></span> My Projects</a></li></li>
+          <li><li><a href="/user/profile/my_donations"><span class="fa fa-donate"></span> My Donations</a></li></li>
+          <li> <li><a href="/user/profile/delete" class="text-danger"><span class="fa fa-minus-circle text-danger"></span> Delete My Account</a></li></li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="update" style="width: 50%">
+    <h2 class="title">My Donations</h2>
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Project Title</th>
+                          <th scope="col">Donation</th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                      {% for project in donations %}
+                      <tr>
+                          <td><a href="/projects/detail/{{project.id}}">{{project.title}}</a></td>
+                          <td> {{project.donation}}&#36; </td>
+
+                        </tr>
+                      {% endfor %}
+
+                      </tbody>
+                    </table>
+  </div>
+</div>
+
+{% endblock content %}
