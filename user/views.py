@@ -1,4 +1,5 @@
 from django.shortcuts import render ,redirect
+from django.http import HttpResponse
 from .forms import UserForm
 from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.contrib import messages
@@ -10,6 +11,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 from .decorators import user_not_authenticated
 from .tokens import account_activation_token
+from django.contrib.auth.models import User
 
 def activate(request, uidb64, token):
     User = get_user_model()
@@ -28,7 +30,7 @@ def activate(request, uidb64, token):
     else:
         messages.error(request, "Activation link is invalid!")
 
-    return redirect('')
+    return redirect('home')
 
 def activateEmail(request, user, to_email):
     mail_subject = "Activate your user account."
@@ -69,7 +71,7 @@ def signup(request):
             user.is_active=False
             user.save()
             activateEmail(request, user, form.cleaned_data.get('email'))
-            return redirect('home')
+            return redirect('profile_page')
         
         # not vlalid trquest
         return render(request, "user/signup.html" ,{'form':form})
@@ -84,22 +86,16 @@ def login(request):
 # handle login form 
 
 
-
-# osama
+@login_required
 def update(request):
     pass
-#    get .
-# return udate form 
-# post 
-# validate and update
+#    user  = User.objects.filter(username=request.user.username)
+#    print( user)
+#    if user :
+#     form =UserForm(instance=user)
+    
 
-
-
-# karem
-def logout(request):
-    pass
-# logut and redirect to home
-
+       
 
 
 
@@ -108,3 +104,8 @@ def delete_account(request):
     pass
 # delete accoutt
 
+
+
+def profile_page(request):
+
+    return render (request , "user/profile.html",{'user':request.user})
